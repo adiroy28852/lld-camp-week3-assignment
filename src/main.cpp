@@ -22,7 +22,7 @@ void producer(JobQueue& q) {
         }
     }
 }
-
+void consumer(JobQueue& q, SingleThreadJobEngine& engine) {}
 
 int32_t main() {
     SingleThreadJobEngine engine;
@@ -46,9 +46,10 @@ int32_t main() {
         std::cout << "FailingJob threw exception: " << ex.what() << '\n';
     }
 */
-    std::thread producerThread(producer, std::ref(jobQueue));
+    std::thread pthread1(producer, std::ref(jobQueue)), pthread2(producer, std::ref(jobQueue));
 
-    producerThread.join();
+    pthread1.join();
+    pthread2.join();
     while (jobQueue.size() > 0) {
         auto job = jobQueue.tryPop();
         if (job) {
