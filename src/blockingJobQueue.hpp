@@ -23,6 +23,10 @@ public:
         q.pop();
         return job;
     }
+    std::size_t size() {
+        std::lock_guard<std::mutex> lock(m);
+        return q.size();
+    }
 
 private:
     std::mutex m;
